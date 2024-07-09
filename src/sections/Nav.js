@@ -1,6 +1,7 @@
 import { Link, Route, Routes } from "react-router-dom";
 import BookingPage from "../components/BookingPage";
 import Hero from "./Hero";
+import ConfirmedBooking from "../components/ConfirmedBooking";
 
 const Nav = () => {
 
@@ -38,6 +39,7 @@ const Nav = () => {
         <Routes>
             <Route path="/" element={<Hero></Hero>} />
             <Route path="/reservations" element={<BookingPage></BookingPage>}></Route>
+            <Route path="/confirmed" element={<ConfirmedBooking/>}></Route>
         </Routes>
     </>
 }
