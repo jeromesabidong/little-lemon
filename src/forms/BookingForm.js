@@ -6,9 +6,10 @@ const BookingForm = ( props ) => {
         date: '',
         time: '',
         guests: '',
-        occassion: '',
+        occasion: '',
     });
     const [loading, setLoading] = useState(false);
+    const [inputsValid, setInputsValid] = useState(false);
 
     const handleSubmit = (e) => {
         // do something
@@ -28,6 +29,20 @@ const BookingForm = ( props ) => {
         props.date && setForm(prev => ({ ...prev, date: props.date }))
     }, [props.date])
 
+    useEffect(() => {
+        setInputsValid(
+            form.date.length > 0
+            && form.time.length > 0
+            && form.guests > 1
+            && form.occasion.length > 0
+        )
+
+        console.log(form.date.length > 0
+            ,form.time.length > 0
+            ,form.guests > 0
+            ,form.occasion.length > 0, form)
+    }, [form])
+
     return <>
         <div className="min-w-full px-11 pt-10">
             <form className="" onSubmit={handleSubmit}>
@@ -40,6 +55,7 @@ const BookingForm = ( props ) => {
                     <label htmlFor="res-time">Choose time</label>
                 </div>
                 <select defaultChecked={form.time} className="select select-bordered" id="res-time " name="res-time" onChange={e => { setForm({...form, time: e.target.value})}}>
+                    <option value="">Select</option>
                     {props.times.map((time) => {
                         return <option key={time.time} value={time.time}>{time.time}</option>
                     })}
@@ -54,6 +70,7 @@ const BookingForm = ( props ) => {
                     <label className="label-text" htmlFor="occasion">Occasion</label>
                 </div>
                 <select className="select select-bordered" id="occasion" value={form.occasion} onChange={e => { setForm({...form, occasion: e.target.value}) }}>
+                    <option value="">Select</option>
                     <option value="birthday">Birthday</option>
                     <option value="anniversary">Anniversary</option>
                 </select>
@@ -61,7 +78,7 @@ const BookingForm = ( props ) => {
                 <div className="clear-both"></div>
 
                 <br />
-                <button className={"btn btn-primary"} disabled={loading} type="submit" onClick={e => handleSubmit(e)} >Make Your Reservation</button>
+                <button className={"btn btn-primary"} disabled={!inputsValid || loading} type="submit" onClick={e => handleSubmit(e)} >Make Your Reservation</button>
             </form>
 
         </div>
